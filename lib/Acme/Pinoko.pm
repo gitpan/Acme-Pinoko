@@ -12,7 +12,7 @@ use Data::Recursive::Encode ();
 use Lingua::JA::Regular::Unicode ();
 use Lingua::JA::Halfwidth::Katakana;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 # KyTea でデフォルトじゃないモデルを使う場合は変更が必要な場合もある
 our $KYTEA_POSTAG_NUM  = 0;
@@ -24,7 +24,7 @@ my %HIRAGANA_INVALID_POS;
 @HIRAGANA_INVALID_POS{qw/助詞 語尾 副詞 動詞 助動詞 形容詞 形状詞 連体詞 接頭詞 接頭辞 代名詞/} = ();
 
 my %TERMINATOR_CHAR;
-@TERMINATOR_CHAR{ split(//, "。｡.． 　\n\t…‥") } = ();
+@TERMINATOR_CHAR{ split(//, "。｡.． 　\n\t…‥!！") } = ();
 
 sub _options
 {
@@ -335,8 +335,8 @@ sub _to_pinoko
                         }
                         else # ね
                         {
-                            if ($prev_surface eq 'よ') { $ret .= 'のね'; }
-                            else                       { $ret .= 'ね';   }
+                            if ($prev_surface eq 'わ' || $prev_surface eq 'よ') { $ret .= 'のね'; }
+                            else                                                { $ret .= 'ね';   }
                         }
                     }
                     else { $ret .= $pron; }
